@@ -120,6 +120,8 @@ Or target a specific agent with `./setup --host <name>`:
 | Slate | `--host slate` | `~/.slate/skills/gstack-*/` |
 | Kiro | `--host kiro` | `~/.kiro/skills/gstack-*/` |
 | Hermes | `--host hermes` | `~/.hermes/skills/gstack-*/` |
+| Pi | `--host pi` | `~/.pi/agent/skills/gstack-*/` |
+| Kilo | `--host kilo` | `~/.kilo/skills/gstack-*/` |
 | GBrain (mod) | `--host gbrain` | `~/.gbrain/skills/gstack-*/` |
 
 For Codex, setup reads the top-level `model` from
