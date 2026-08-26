@@ -4,6 +4,15 @@ const hermes = defineHost({
   name: 'hermes',
   displayName: 'Hermes',
 
+  // Hermes discovers skills by recursively walking ~/.hermes/skills/ (unlike
+  // Claude/Codex/Pi, which read skills/<name>/SKILL.md at one level). A
+  // whole-repo runtime root symlinked into the skills dir would be followed by
+  // that walk and re-discover the committed Claude-format SKILL.md files as
+  // duplicate skills. So the runtime root lives OUTSIDE the skills tree, at the
+  // recognized ~/.gstack/repos/gstack location (already in gstack-team-init's
+  // probe list); only generated gstack-* skills live under ~/.hermes/skills/.
+  globalRoot: '.gstack/repos/gstack',
+
   // Hermes-native frontmatter: name + description (agentskills core) plus the
   // fields Hermes skills carry — version, platforms, and metadata.hermes tags
   // for native categorization. The extraFields serializer JSON-encodes the
