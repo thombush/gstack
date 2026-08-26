@@ -22,6 +22,10 @@ import {
   slate,
   cursor,
   openclaw,
+  hermes,
+  gbrain,
+  pi,
+  kilo,
 } from '../hosts/index';
 import { HOST_PATHS } from '../scripts/resolvers/types';
 import { RESOLVERS } from '../scripts/resolvers';
@@ -32,8 +36,8 @@ const RESOLVER_NAMES = new Set(Object.keys(RESOLVERS));
 // ─── hosts/index.ts ─────────────────────────────────────────
 
 describe('hosts/index.ts', () => {
-  test('ALL_HOST_CONFIGS has 10 hosts', () => {
-    expect(ALL_HOST_CONFIGS.length).toBe(10);
+  test('ALL_HOST_CONFIGS has 12 hosts', () => {
+    expect(ALL_HOST_CONFIGS.length).toBe(12);
   });
 
   test('ALL_HOST_NAMES matches config names', () => {
@@ -55,6 +59,10 @@ describe('hosts/index.ts', () => {
     expect(slate.name).toBe('slate');
     expect(cursor.name).toBe('cursor');
     expect(openclaw.name).toBe('openclaw');
+    expect(hermes.name).toBe('hermes');
+    expect(gbrain.name).toBe('gbrain');
+    expect(pi.name).toBe('pi');
+    expect(kilo.name).toBe('kilo');
   });
 
   test('getHostConfig returns correct config', () => {
@@ -477,9 +485,10 @@ describe('golden-file regression', () => {
 // ─── Individual host config correctness ─────────────────────
 
 describe('host config correctness', () => {
-  test('Codex defaults to generic GPT while all existing hosts retain Claude', () => {
+  test('Codex defaults to GPT, Pi to DeepSeek, all other hosts retain Claude', () => {
     expect(codex.defaultModel).toBe('gpt');
-    for (const host of ALL_HOST_CONFIGS.filter(h => h.name !== 'codex')) {
+    expect(pi.defaultModel).toBe('deepseek');
+    for (const host of ALL_HOST_CONFIGS.filter(h => h.name !== 'codex' && h.name !== 'pi')) {
       expect(host.defaultModel).toBe('claude');
     }
   });

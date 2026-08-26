@@ -4,6 +4,24 @@ const hermes = defineHost({
   name: 'hermes',
   displayName: 'Hermes',
 
+  // Hermes-native frontmatter: name + description (agentskills core) plus the
+  // fields Hermes skills carry — version, platforms, and metadata.hermes tags
+  // for native categorization. The extraFields serializer JSON-encodes the
+  // nested metadata block into valid YAML.
+  frontmatter: {
+    mode: 'allowlist',
+    keepFields: ['name', 'description'],
+    extraFields: {
+      version: '2.0.0',
+      platforms: ['linux', 'macos', 'windows'],
+      metadata: {
+        hermes: {
+          tags: ['gstack', 'workflow', 'ai-tools'],
+        },
+      },
+    },
+  },
+
   extraPathRewrites: [
     { from: 'CLAUDE.md', to: 'AGENTS.md' },
   ],

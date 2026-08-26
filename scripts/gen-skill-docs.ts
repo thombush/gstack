@@ -516,6 +516,18 @@ policy:
  * Codex: keeps name + description only, enforces 1024-char limit.
  * Factory: keeps name + description + user-invocable, conditionally adds disable-model-invocation.
  */
+/**
+ * Serialize an extraFields value for YAML frontmatter. Strings pass through
+ * verbatim (so a bare version like `2.0.0` stays unquoted); objects, arrays,
+ * booleans, and numbers are JSON-encoded. JSON is a strict subset of YAML, so
+ * a nested `metadata: {"hermes": {"tags": [...]}}` value round-trips through
+ * the consumer's YAML parser as the intended structure.
+ */
+function serializeExtraField(value: unknown): string {
+  if (typeof value === 'string') return value;
+  return JSON.stringify(value);
+}
+
 function transformFrontmatter(content: string, host: Host): string {
   const hostConfig = getHostConfig(host);
   const fm = hostConfig.frontmatter;
@@ -565,7 +577,7 @@ function transformFrontmatter(content: string, host: Host): string {
   if (fm.extraFields) {
     for (const [key, value] of Object.entries(fm.extraFields)) {
       if (key !== 'name' && key !== 'description') {
-        newFm += `${key}: ${value}\n`;
+        newFm += `${key}: ${serializeExtraField(value)}\n`;
       }
     }
   }

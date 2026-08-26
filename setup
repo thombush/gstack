@@ -21,7 +21,8 @@ Usage: ./setup [options]
 
 Options:
   --host <name>     Install for a specific host (claude, codex, kiro, factory,
-                    opencode, openclaw, hermes, gbrain, auto). Default: claude.
+                    opencode, cursor, slate, openclaw, hermes, gbrain, pi, kilo,
+                    auto). Default: claude.
   --model <id>      Codex model profile override. Otherwise reads Codex config.
   --prefix          Install skills with the gstack- prefix (e.g. /gstack-review).
   --no-prefix       Install skills with short names (e.g. /review). Default.
@@ -187,7 +188,7 @@ MODEL_OVERRIDE=""
 MODEL_OVERRIDE_SET=0
 while [ $# -gt 0 ]; do
   case "$1" in
-    --host) [ -z "$2" ] && echo "Missing value for --host (expected claude, codex, kiro, factory, opencode, cursor, slate, openclaw, hermes, gbrain, or auto)" >&2 && exit 1; HOST="$2"; shift 2 ;;
+    --host) [ -z "$2" ] && echo "Missing value for --host (expected claude, codex, kiro, factory, opencode, cursor, slate, openclaw, hermes, gbrain, pi, kilo, or auto)" >&2 && exit 1; HOST="$2"; shift 2 ;;
     --host=*) HOST="${1#--host=}"; shift ;;
     --model) [ -z "$2" ] && echo "Missing value for --model" >&2 && exit 1; MODEL_OVERRIDE="$2"; MODEL_OVERRIDE_SET=1; shift 2 ;;
     --model=*) MODEL_OVERRIDE="${1#--model=}"; MODEL_OVERRIDE_SET=1; shift ;;
@@ -250,7 +251,29 @@ case "$HOST" in
     echo "GBrain setup and brain skills ship from the GBrain repo."
     echo ""
     exit 0 ;;
-  *) echo "Unknown --host value: $HOST (expected claude, codex, kiro, factory, opencode, cursor, slate, openclaw, hermes, gbrain, or auto)" >&2; exit 1 ;;
+  pi)
+    echo ""
+    echo "Pi reads skills from .pi/skills/ (project) and ~/.pi/agent/skills/ (global),"
+    echo "following the Agent Skills standard. gstack ships a Pi host config."
+    echo ""
+    echo "To integrate gstack with Pi:"
+    echo "  1. Generate artifacts: bun run gen:skill-docs --host pi"
+    echo "  2. Link .pi/skills/gstack-*/ into ~/.pi/agent/skills/ and symlink the"
+    echo "     runtime root (bin/, browse/dist/) at ~/.pi/agent/skills/gstack."
+    echo ""
+    exit 0 ;;
+  kilo)
+    echo ""
+    echo "Kilo reads skills from .kilo/skills/<name>/SKILL.md and AGENTS.md, and its"
+    echo "tool names mirror Claude Code's. gstack ships a Kilo host config."
+    echo ""
+    echo "To integrate gstack with Kilo:"
+    echo "  1. Generate artifacts: bun run gen:skill-docs --host kilo"
+    echo "  2. Link .kilo/skills/gstack-*/ into ~/.kilo/skills/ and symlink the"
+    echo "     runtime root (bin/, browse/dist/) at ~/.kilo/skills/gstack."
+    echo ""
+    exit 0 ;;
+  *) echo "Unknown --host value: $HOST (expected claude, codex, kiro, factory, opencode, cursor, slate, openclaw, hermes, gbrain, pi, kilo, or auto)" >&2; exit 1 ;;
 esac
 
 # ─── Resolve skill prefix preference ─────────────────────────
