@@ -4,6 +4,9 @@ const kilo = defineHost({
   name: 'kilo',
   displayName: 'Kilo',
   cliCommand: 'kilo',
+  // Model-agnostic: Kilo is model-agnostic at runtime; bake the universal
+  // generic overlay rather than a model-specific one.
+  defaultModel: 'generic',
 
   // Kilo's tool names are lowercase (bash/read/write/edit/grep/glob), same set
   // as Claude's but lowercase, so rewrite the prose to match.

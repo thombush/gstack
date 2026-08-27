@@ -4,7 +4,10 @@ const pi = defineHost({
   name: 'pi',
   displayName: 'Pi',
   cliCommand: 'pi',
-  defaultModel: 'deepseek',
+  // Model-agnostic: Pi can run any provider/model; bake the universal generic
+  // overlay. The runtime default (deepseek-v4-flash) is Pi's own settings.json,
+  // independent of this generation-time overlay.
+  defaultModel: 'generic',
 
   // Pi follows the Agent Skills standard and reads skills from `.pi/skills/`
   // (project) and `~/.pi/agent/skills/` (global). Emit to a Pi-specific

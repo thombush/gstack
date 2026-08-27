@@ -27,6 +27,10 @@ export const ALL_MODEL_NAMES = [
   'gemini',
   'deepseek',
   'o-series',
+  // Model-agnostic fallback: universal behavioral nudges that don't assume a
+  // specific model's weaknesses. Use as a host default when the user may run
+  // the host on any model (and switch without regenerating skills).
+  'generic',
 ] as const;
 
 export type Model = (typeof ALL_MODEL_NAMES)[number];

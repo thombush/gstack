@@ -4,6 +4,11 @@ const hermes = defineHost({
   name: 'hermes',
   displayName: 'Hermes',
 
+  // Model-agnostic: Hermes runs whatever model the user points it at (DeepSeek
+  // today, GLM tomorrow), so bake the universal generic overlay rather than a
+  // model-specific one. Pass --model <family> to regenerate with specific tuning.
+  defaultModel: 'generic',
+
   // Hermes discovers skills by recursively walking ~/.hermes/skills/ (unlike
   // Claude/Codex/Pi, which read skills/<name>/SKILL.md at one level). A
   // whole-repo runtime root symlinked into the skills dir would be followed by

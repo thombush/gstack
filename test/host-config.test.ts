@@ -485,10 +485,12 @@ describe('golden-file regression', () => {
 // ─── Individual host config correctness ─────────────────────
 
 describe('host config correctness', () => {
-  test('Codex defaults to GPT, Pi to DeepSeek, all other hosts retain Claude', () => {
+  test('Codex defaults to GPT; pi/hermes/kilo are model-agnostic; other hosts retain Claude', () => {
     expect(codex.defaultModel).toBe('gpt');
-    expect(pi.defaultModel).toBe('deepseek');
-    for (const host of ALL_HOST_CONFIGS.filter(h => h.name !== 'codex' && h.name !== 'pi')) {
+    expect(pi.defaultModel).toBe('generic');
+    expect(hermes.defaultModel).toBe('generic');
+    expect(kilo.defaultModel).toBe('generic');
+    for (const host of ALL_HOST_CONFIGS.filter(h => !['codex', 'pi', 'hermes', 'kilo'].includes(h.name))) {
       expect(host.defaultModel).toBe('claude');
     }
   });
